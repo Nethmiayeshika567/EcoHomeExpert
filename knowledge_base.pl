@@ -1,9 +1,9 @@
 %  knowledge_base.pl  --  EcoHome Expert
-%  Facts (questions / possible answers), sources and production rules.
+% Source references, diagnostic questions, and production rules.
 %  Every rule cites the source(s) it was derived from.
 
 :- module(knowledge_base,
-          [ source/3, question/4, rule/7, goal_issue/1, audit_threshold/1 ]).
+          [ source/3, question/4, rule/7, goal_issue/1 ]).
 
 
 source(s1, 'ENERGY STAR - Heat & Cool Efficiently',
@@ -188,15 +188,7 @@ rule(r27, [issue(dirty_filter), issue(hvac_tuneup_due)], issue(hvac_neglected), 
      'Both filter care and yearly servicing have been neglected, so the system is likely running inefficiently.',
      'Change the filter immediately and schedule the professional tune-up.',
      [s1]).
-% r28 uses issues_at_least(N): N is a design threshold chosen by the system
-% designer (not a figure from the sources); DOE recommends an energy audit for
-% advice on the home as a whole.
-rule(r28, [issues_at_least(5)], issue(needs_energy_audit), chained,
-     'Many separate energy-wasting conditions were found in the home.',
-     'Schedule a home energy audit (ask your utility or state energy office) to prioritise the fixes.',
-     [s2]).
 
-audit_threshold(5).
 
 %  Goals available for backward chaining (every concluded issue)
 goal_issue(Name) :-
